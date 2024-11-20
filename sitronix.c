@@ -242,7 +242,7 @@ int32_t SITRONIX_ReadID(SITRONIX_Object_t *pObj, uint32_t *Id)
 int32_t SITRONIX_GetState(SITRONIX_Object_t *pObj, SITRONIX_State_t *State)
 {
   int32_t ret = SITRONIX_OK;
-  uint8_t  data[64];
+  uint8_t  data[5];
 
   if (sitronix_read_data(&pObj->Ctx, data, (uint16_t)sizeof(data)) != SITRONIX_OK)
   {
@@ -250,8 +250,6 @@ int32_t SITRONIX_GetState(SITRONIX_Object_t *pObj, SITRONIX_State_t *State)
   }
   else
   {
-    State->TouchX = (((uint32_t)data[2] & SITRONIX_TOUCH_POS_LSB_MASK) << 4);
-
     /* Send back first ready X position to caller */
     State->TouchX = ((((uint32_t)data[2] & SITRONIX_TOUCH_POS_LSB_MASK) << 4) | ((uint32_t)data[3]));
     /* Send back first ready Y position to caller */
